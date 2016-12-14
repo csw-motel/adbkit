@@ -7,6 +7,7 @@ Connection = require './connection'
 Sync = require './sync'
 Parser = require './parser'
 ProcStat = require './proc/stat'
+MemStat = require './proc/meminfo'
 
 HostVersionCommand = require './command/host/version'
 HostConnectCommand = require './command/host/connect'
@@ -321,6 +322,12 @@ class Client
     this.syncService serial
       .then (sync) ->
         new ProcStat sync
+      .nodeify callback
+
+   openMemStat: (serial, callback) ->
+    this.syncService serial
+      .then (sync) ->
+        new MemStat sync
       .nodeify callback
 
   clear: (serial, pkg, callback) ->
